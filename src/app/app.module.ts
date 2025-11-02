@@ -6,16 +6,18 @@ import localePt from '@angular/common/locales/pt-PT';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CapitalizeDatePipe } from './pipes/capitalize-date.pipe';
+import { TimeComponent } from './time/time.component';
 
 registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
     AppComponent,
-    CapitalizeDatePipe
+    CapitalizeDatePipe,
   ],
   imports: [
     BrowserModule,
+    TimeComponent,
     AppRoutingModule
   ],
   providers: [

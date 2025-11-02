@@ -5,3 +5,8 @@
 <div class="tw-block tw-text-center">
     <h2 class="tw-text-2xl tw-font-semibold tw-underline tw-text-red-500">{{startDate | date:"dd 'de' MMMM 'de' yyyy', hh:mm:ss" | capitalizeDate }}</h2>
 </div>
+
+<app-time 
+  class="tw-h-[200px] tw-flex tw-text-center tw-justify-evenly tw-align-middle"
+  [startDate]="startDate"
+></app-time>

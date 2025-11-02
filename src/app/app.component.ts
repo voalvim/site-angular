@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,20 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   readonly gfName = 'Helena';
-  readonly startDate = new Date("2025-01-26T10:00:00");
-
-  intervalId?: number;
-
-
-  ngOnInit() {
-     this.intervalId = setInterval(() => {
-      console.log(new Date());
-    }, 
-    1000); 
-  } 
-
-  ngOnDestroy() {
-    if (this.intervalId) clearInterval(this.intervalId);
-  }
-
+  readonly startDate = new Date("2025-01-26T14:00:00");
 }
