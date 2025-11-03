@@ -1,8 +1,31 @@
-<div class="times tw-flex tw-justify-around tw-content-evenly">
-    <app-years class="tw-content-center"></app-years>
-    <app-months class="tw-content-center"></app-months>
-    <app-days class="tw-content-center"></app-days>
-    <app-hours class="tw-content-center"></app-hours>
-    <app-minutes class="tw-content-center"></app-minutes>
-    <app-seconds class="tw-content-center"></app-seconds>
+<div class="times tw-block tw-justify-around tw-content-evenly">
+    <app-years 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-years>
+    
+    <app-months 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-months>
+
+    <app-days 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-days>
+
+    <app-hours 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-hours>
+
+    <app-minutes 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-minutes>
+
+    <app-seconds 
+    class="tw-content-center"
+    [timePassed$]="timePassed$"
+    ></app-seconds>
 </div>

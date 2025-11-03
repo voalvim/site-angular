@@ -7,7 +7,9 @@ import { HoursComponent } from "./hours/hours.component";
 import { MinutesComponent } from "./minutes/minutes.component";
 import { SecondsComponent } from "./seconds/seconds.component";
 import { TimePassed } from '../models/time-passed.model';
-import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarYears, differenceInDays, eachYearOfInterval, endOfYear, isLeapYear, startOfYear } from "date-fns";
+import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarYears, getDaysInMonth } from "date-fns";
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { TimeRepresentation } from '../models/time-representation.model';
 
 @Component({
   selector: 'app-time',
@@ -28,37 +30,50 @@ export class TimeComponent {
   @Input() startDate!: Date;
   intervalId?: number;
   timePassed!: TimePassed;
+  timePassed$!: BehaviorSubject<TimePassed>;
+  private timerSub?: Subscription;
 
   ngOnInit() {
-    this.timePassed = {
-      years: 0,
-      months: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
-    }
-    this.intervalId = setInterval(() => {
-      this.calculateTimePassed(new Date());
-      console.log(this.timePassed);
-    }, 
-    1000);
+/*     const initialTimePassed = this.calculateTimePassed(new Date());
+    this.timePassed$ = new BehaviorSubject<TimePassed>(initialTimePassed);
+
+    this.timerSub = interval(1000).subscribe(() => {
+      const newTimePassed = this.calculateTimePassed(new Date());
+      this.timePassed$.next(newTimePassed);
+    }); */
+
+    console.log(this.calculateDays(new Date()));
   } 
 
   ngOnDestroy() {
-    if (this.intervalId) clearInterval(this.intervalId);
+    this.timerSub?.unsubscribe();
   }
 
-  calculateTimePassed(date: Date) {
-    this.timePassed.years = this.calculateYears(date);
-    this.timePassed.months = this.calculateMonths(date);
-    this.timePassed.days = this.calculateDays(date);
-    this.timePassed.hours = this.calculateHours(date);
-    this.timePassed.minutes = this.calculateMinutes(date);
-    this.timePassed.seconds = this.calculateSeconds(date);
+/*   calculateTimePassed(date: Date): TimePassed {
+    return {
+      years: this.calculateYears(date),
+      months: this.calculateMonths(date),
+      days: this.calculateDays(date),
+      hours: this.calculateHours(date),
+      minutes: this.calculateMinutes(date),
+      seconds: this.calculateSeconds(date)
+    }
+  } */
+
+  private getLastMonthversary( currentDate: Date, startDate: Date ): { fullMonths: number, lastMonthversary: Date } {
+    const fullMonths = differenceInCalendarMonths(currentDate, this.startDate);
+    let lastMonthversary = addMonths(this.startDate, fullMonths);
+    if (currentDate.getTime() < lastMonthversary.getTime()) {
+        // retroceder 1 mes (quando de fato foi o ultimo mesversario)
+        lastMonthversary = addMonths(this.startDate, fullMonths - 1);
+    }
+    return {
+      fullMonths, lastMonthversary
+    };
   }
 
-  calculateYears(date: Date): number {
+  calculateYears(date: Date): TimeRepresentation {
+    if (!this.startDate) return { absolute: 0, relative: 0 };
     // calculo a quantidade total de anos no periodo do relacionamento
     const fullYears = differenceInCalendarYears(date, this.startDate);
     
@@ -89,20 +104,21 @@ export class TimeComponent {
     // adiciono a fracao de tempo com os anos completos
     const years = fullYears + fraction;
 
-    return years;
+    return {
+      absolute: years,
+      relative: years
+    };
   }
 
-  calculateMonths(date: Date): number {
+  calculateMonths(date: Date): TimeRepresentation {
+    let { fullMonths, lastMonthversary } = this.getLastMonthversary(date, this.startDate);
     // calculo a quantidade total de meses no periodo do relacionamento
-    const fullMonths = differenceInCalendarMonths(date, this.startDate);
+    // const fullMonths = differenceInCalendarMonths(date, this.startDate);
     
     // pego a data do ultimo mesversario
-    let lastMonthversary = addMonths(this.startDate, fullMonths);
+    //let lastMonthversary = addMonths(this.startDate, fullMonths);
     // se a data atual for antes do que a data do ultimo mesversario
-    if (date.getTime() < lastMonthversary.getTime()) {
-        // retroceder 1 mes (quando de fato foi o ultimo mesversario)
-        lastMonthversary = addMonths(this.startDate, fullMonths - 1);
-    }
+
     
     // pego a data do proximo mesversario
     let nextMonthversary = addMonths(this.startDate, fullMonths);
@@ -124,12 +140,18 @@ export class TimeComponent {
     // adiciono a fracao de tempo com os meses completos
     const months = fullMonths + fraction;
 
-    return months;
+    return {
+      absolute: months,
+      relative: (fullMonths % 12) + 1
+    };
   }
 
-  calculateDays(date: Date): number {
+  calculateDays(date: Date): TimeRepresentation {
+    let { fullMonths, lastMonthversary } = this.getLastMonthversary(date, this.startDate);
+
     // calculo a quantidade total de dias no periodo do relacionamento
     const fullDays = differenceInCalendarDays(date, this.startDate);
+    const monthDays = differenceInCalendarDays(date, lastMonthversary) + 1;
     
     // pego a data do ultimo diaversario
     let lastDayversary = addDays(this.startDate, fullDays);
@@ -159,7 +181,12 @@ export class TimeComponent {
     // adiciono a fracao de tempo com os dias completos
     const days = fullDays + fraction;
 
-    return days;
+    console.log(days + "  " + monthDays);
+
+    return {
+      absolute: days,
+      relative: monthDays
+    };
   }
 
   calculateHours(date: Date): number {
