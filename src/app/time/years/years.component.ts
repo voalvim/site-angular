@@ -11,17 +11,18 @@ import { TimePassed } from 'src/app/models/time-passed.model';
 export class YearsComponent {
   @Input() timePassed$!: Observable<TimePassed>;
 
-  years: number = 0;
-  yearsFloat: number = 0;
+  relativeYears: number = 0;
+  absoluteYears: number = 0;
   private sub?: Subscription;
 
   ngOnInit() {
     this.sub = this.timePassed$.subscribe(tp => {
-      this.years = Math.floor(tp.years);
-      this.yearsFloat = tp.years;
+      this.absoluteYears = Math.floor(tp.years.relative);
+      this.relativeYears = tp.years.absolute;
     });
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
-  }}
+  }
+}

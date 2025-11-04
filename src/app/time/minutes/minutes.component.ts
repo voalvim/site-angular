@@ -1,18 +1,28 @@
 import { Component, Input } from '@angular/core';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TimePassed } from 'src/app/models/time-passed.model';
 
 @Component({
   selector: 'app-minutes',
-  standalone: true,  
-  imports:[
-    AsyncPipe, 
-    DecimalPipe
-  ],
+  standalone: true,
   templateUrl: './minutes.component.html',
   styleUrls: ['./minutes.component.scss']
 })
 export class MinutesComponent {
-  @Input() timePassed$!: Observable<TimePassed>
+  @Input() timePassed$!: Observable<TimePassed>;
+
+  absoluteMinutes: number = 0;
+  relativeMinutes: number = 0;
+  private sub?: Subscription;
+
+  ngOnInit() {
+    this.sub = this.timePassed$.subscribe(tp => {
+      this.absoluteMinutes = tp.minutes.absolute;
+      this.relativeMinutes = tp.minutes.relative;
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
 }

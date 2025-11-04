@@ -7,7 +7,7 @@ import { HoursComponent } from "./hours/hours.component";
 import { MinutesComponent } from "./minutes/minutes.component";
 import { SecondsComponent } from "./seconds/seconds.component";
 import { TimePassed } from '../models/time-passed.model';
-import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarYears, getDaysInMonth } from "date-fns";
+import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarYears, differenceInMonths, getDaysInMonth } from "date-fns";
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import { TimeRepresentation } from '../models/time-representation.model';
 
@@ -34,22 +34,20 @@ export class TimeComponent {
   private timerSub?: Subscription;
 
   ngOnInit() {
-/*     const initialTimePassed = this.calculateTimePassed(new Date());
+    const initialTimePassed = this.calculateTimePassed(new Date());
     this.timePassed$ = new BehaviorSubject<TimePassed>(initialTimePassed);
 
     this.timerSub = interval(1000).subscribe(() => {
       const newTimePassed = this.calculateTimePassed(new Date());
       this.timePassed$.next(newTimePassed);
-    }); */
-
-    console.log(this.calculateDays(new Date()));
+    });
   } 
 
   ngOnDestroy() {
     this.timerSub?.unsubscribe();
   }
 
-/*   calculateTimePassed(date: Date): TimePassed {
+   calculateTimePassed(date: Date): TimePassed {
     return {
       years: this.calculateYears(date),
       months: this.calculateMonths(date),
@@ -58,11 +56,12 @@ export class TimeComponent {
       minutes: this.calculateMinutes(date),
       seconds: this.calculateSeconds(date)
     }
-  } */
+  } 
 
   private getLastMonthversary( currentDate: Date, startDate: Date ): { fullMonths: number, lastMonthversary: Date } {
-    const fullMonths = differenceInCalendarMonths(currentDate, this.startDate);
+    const fullMonths = differenceInMonths(currentDate, startDate);
     let lastMonthversary = addMonths(this.startDate, fullMonths);
+
     if (currentDate.getTime() < lastMonthversary.getTime()) {
         // retroceder 1 mes (quando de fato foi o ultimo mesversario)
         lastMonthversary = addMonths(this.startDate, fullMonths - 1);
@@ -118,7 +117,6 @@ export class TimeComponent {
     // pego a data do ultimo mesversario
     //let lastMonthversary = addMonths(this.startDate, fullMonths);
     // se a data atual for antes do que a data do ultimo mesversario
-
     
     // pego a data do proximo mesversario
     let nextMonthversary = addMonths(this.startDate, fullMonths);
@@ -142,7 +140,7 @@ export class TimeComponent {
 
     return {
       absolute: months,
-      relative: (fullMonths % 12) + 1
+      relative: (fullMonths % 12)
     };
   }
 
@@ -151,7 +149,7 @@ export class TimeComponent {
 
     // calculo a quantidade total de dias no periodo do relacionamento
     const fullDays = differenceInCalendarDays(date, this.startDate);
-    const monthDays = differenceInCalendarDays(date, lastMonthversary) + 1;
+    const monthDays = differenceInCalendarDays(date, lastMonthversary);
     
     // pego a data do ultimo diaversario
     let lastDayversary = addDays(this.startDate, fullDays);
@@ -181,30 +179,42 @@ export class TimeComponent {
     // adiciono a fracao de tempo com os dias completos
     const days = fullDays + fraction;
 
-    console.log(days + "  " + monthDays);
-
     return {
       absolute: days,
       relative: monthDays
     };
   }
 
-  calculateHours(date: Date): number {
+  calculateHours(date: Date): TimeRepresentation {
     const diffMs = date.getTime() - this.startDate.getTime();
     const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
-    return totalHours % 24;
+    const relativeHours = totalHours % 24;
+    
+    return {
+      absolute: totalHours, 
+      relative: relativeHours
+    }
   }
 
-  calculateMinutes(date: Date): number {
+  calculateMinutes(date: Date): TimeRepresentation {
     const diffMs = date.getTime() - this.startDate.getTime();
     const totalMinutes = Math.floor(diffMs / (1000 * 60));
-    return totalMinutes % 60;
+    const relativeMinutes = totalMinutes % 60;
+
+    return {
+      absolute: totalMinutes,
+      relative: relativeMinutes
+    }
   }
 
-  calculateSeconds(date: Date): number {
+  calculateSeconds(date: Date): TimeRepresentation {
     const diffMs = date.getTime() - this.startDate.getTime();
     const totalSeconds = Math.floor(diffMs / 1000);
-    return totalSeconds % 60;
+    const relativeSeconds = totalSeconds % 60;
+
+    return {
+      absolute: totalSeconds,
+      relative: relativeSeconds
+    }
   }
-    
 }

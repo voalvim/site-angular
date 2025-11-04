@@ -1,12 +1,12 @@
-<div class="tw-block tw-text-center">
-    <h1 class="tw-text-3xl tw-font-bold tw-underline tw-text-red-500">{{gfName}}</h1>
+<div class="tw-flex-col">
+  <div class="tw-flex tw-text-center">
+      <h1 class="tw-text-3xl tw-font-bold tw-underline tw-text-red-500">{{gfName}}</h1>
+    
+      <h2 class="tw-text-2xl tw-font-semibold tw-underline tw-text-red-500">{{startDate | date:"dd 'de' MMMM 'de' yyyy', hh:mm:ss" | capitalizeDate }}</h2>
+  </div>
+  
+  <app-time 
+    class="tw-h-[200px] tw-flex-auto tw-text-center tw-justify-evenly tw-align-middle"
+    [startDate]="startDate"
+  ></app-time>
 </div>
-
-<div class="tw-block tw-text-center">
-    <h2 class="tw-text-2xl tw-font-semibold tw-underline tw-text-red-500">{{startDate | date:"dd 'de' MMMM 'de' yyyy', hh:mm:ss" | capitalizeDate }}</h2>
-</div>
-
-<app-time 
-  class="tw-h-[200px] tw-flex tw-text-center tw-justify-evenly tw-align-middle"
-  [startDate]="startDate"
-></app-time>
