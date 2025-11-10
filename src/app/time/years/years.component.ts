@@ -1,10 +1,16 @@
 import { Component, Input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+
 import { Observable, Subscription } from 'rxjs';
+
 import { TimePassed } from 'src/app/models/time-passed.model';
 
 @Component({
   selector: 'app-years',
   standalone: true,
+  imports: [
+    MatCardModule
+  ],
   templateUrl: './years.component.html',
   styleUrls: ['./years.component.scss']
 })

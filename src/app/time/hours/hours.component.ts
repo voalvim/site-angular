@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TimePassed } from 'src/app/models/time-passed.model';
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: 'app-hours',
   standalone: true,
   templateUrl: './hours.component.html',
-  styleUrls: ['./hours.component.scss']
+  styleUrls: ['./hours.component.scss'],
+  imports: [MatCardModule]
 })
 export class HoursComponent {
   @Input() timePassed$!: Observable<TimePassed>;

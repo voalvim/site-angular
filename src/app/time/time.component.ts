@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
+
 import { DaysComponent } from './days/days.component';
 import { YearsComponent } from "./years/years.component";
 import { MonthsComponent } from "./months/months.component";
@@ -7,15 +10,14 @@ import { HoursComponent } from "./hours/hours.component";
 import { MinutesComponent } from "./minutes/minutes.component";
 import { SecondsComponent } from "./seconds/seconds.component";
 import { TimePassed } from '../models/time-passed.model';
-import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarMonths, differenceInCalendarYears, differenceInMonths, getDaysInMonth } from "date-fns";
-import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarYears, differenceInMonths } from "date-fns";
 import { TimeRepresentation } from '../models/time-representation.model';
 
 @Component({
   selector: 'app-time',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     DaysComponent, 
     YearsComponent, 
     MonthsComponent, 
