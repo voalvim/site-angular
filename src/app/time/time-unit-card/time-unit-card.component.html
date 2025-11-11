@@ -3,13 +3,14 @@
     
     <mat-card-header class="!tw-p-0 tw-flex tw-justify-center tw-w-full tw-h-[40%]">
         <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
-            <p class="!tw-m-0 tw-text-lg">Anos</p>
+            <p class="!tw-m-0 tw-text-lg">{{timeUnit}}</p>
         </div>
     </mat-card-header>
     
     <mat-card-content *ngIf="!isCollapsed" class="!tw-p-0 !tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-[60%]">
-        <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full">
-            <p class="!tw-m-0 tw-text-4xl tw-font-bold">{{absoluteYears}}</p>
+        <div class="tw-flex tw-flex-col tw-justify-center tw-items-center tw-w-full tw-h-full">
+            <p class="!tw-m-0 tw-text-4xl tw-font-bold">{{absoluteTime}}</p>
+            <p class="!tw-m-0 tw-text-4xl tw-font-bold">{{relativeTime}}</p>
         </div>
     </mat-card-content>
 

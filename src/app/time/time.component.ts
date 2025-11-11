@@ -3,27 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 
-import { DaysComponent } from './days/days.component';
-import { YearsComponent } from "./years/years.component";
-import { MonthsComponent } from "./months/months.component";
-import { HoursComponent } from "./hours/hours.component";
-import { MinutesComponent } from "./minutes/minutes.component";
-import { SecondsComponent } from "./seconds/seconds.component";
 import { TimePassed } from '../models/time-passed.model';
 import { addDays, addMonths, addYears, differenceInCalendarDays, differenceInCalendarYears, differenceInMonths } from "date-fns";
 import { TimeRepresentation } from '../models/time-representation.model';
+import { TimeUnitCardComponent } from './time-unit-card/time-unit-card.component';
 
 @Component({
   selector: 'app-time',
   standalone: true,
   imports: [
     CommonModule,
-    DaysComponent, 
-    YearsComponent, 
-    MonthsComponent, 
-    HoursComponent, 
-    MinutesComponent, 
-    SecondsComponent
+    TimeUnitCardComponent
   ],
   templateUrl: './time.component.html',
   styleUrls: ['./time.component.scss']
@@ -31,6 +21,7 @@ import { TimeRepresentation } from '../models/time-representation.model';
 export class TimeComponent {
   @Input() startDate!: Date;
   intervalId?: number;
+  expandedCard: 'YEARS' | 'MONTHS' | 'DAYS' | 'HOURS' | 'MINUTES' | 'SECONDS' | null = null;
   timePassed!: TimePassed;
   timePassed$!: BehaviorSubject<TimePassed>;
   private timerSub?: Subscription;
@@ -106,8 +97,8 @@ export class TimeComponent {
     const years = fullYears + fraction;
 
     return {
-      absolute: years,
-      relative: years
+      absolute: Number(years.toFixed(6)),
+      relative: Math.floor(years)
     };
   }
 
@@ -141,7 +132,7 @@ export class TimeComponent {
     const months = fullMonths + fraction;
 
     return {
-      absolute: months,
+      absolute: Math.floor(months),
       relative: (fullMonths % 12)
     };
   }
@@ -182,7 +173,7 @@ export class TimeComponent {
     const days = fullDays + fraction;
 
     return {
-      absolute: days,
+      absolute: Math.floor(days),
       relative: monthDays
     };
   }
@@ -218,5 +209,11 @@ export class TimeComponent {
       absolute: totalSeconds,
       relative: relativeSeconds
     }
+  }
+  
+  expand(expandedCard: 'YEARS' | 'MONTHS' | 'DAYS' | 'HOURS' | 'MINUTES' | 'SECONDS') {
+    if (this.expandedCard == expandedCard) {
+      this.expandedCard = null;
+    } else this.expandedCard = expandedCard;
   }
 }

@@ -12,19 +12,28 @@ import { MatCardModule } from "@angular/material/card";
 })
 export class DaysComponent {
   @Input() timePassed$!: Observable<TimePassed>;
+  private _isExpanded = false;
+  
+  @Input() set isExpanded(value: boolean) {
+    console.log('YearsComponent isExpanded changed to: ', value);
+    this._isExpanded = value;
+  }  
+  get isExpanded():boolean {
+    return this._isExpanded;
+  }
 
-    absoluteDays: number = 0;
-    relativeDays: number = 0;
-    private sub?: Subscription;
-  
-    ngOnInit() {
-      this.sub = this.timePassed$.subscribe(tp => {
-        this.absoluteDays = tp.days.absolute;
-        this.relativeDays = tp.days.relative;
-      });
-    }
-  
-    ngOnDestroy() {
-      this.sub?.unsubscribe();
-    }
+  absoluteDays: number = 0;
+  relativeDays: number = 0;
+  private sub?: Subscription;
+
+  ngOnInit() {
+    this.sub = this.timePassed$.subscribe(tp => {
+      this.absoluteDays = tp.days.absolute;
+      this.relativeDays = tp.days.relative;
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
 }

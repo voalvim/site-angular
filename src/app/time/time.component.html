@@ -1,35 +1,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-<div class="tw-flex max-sm:tw-flex-col max-sm:tw-items-center max-[800px]:tw-flex-col tw-justify-around tw-content-evenly">
+<div 
+    *ngIf="timePassed$ | async as timePassed"
+    class="tw-flex max-sm:tw-flex-col max-sm:tw-items-center max-[800px]:tw-flex-col tw-justify-around tw-content-evenly"
+>
     
-    <app-years 
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px] md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-years>
+    <time-unit-card
+    (click)="expand('YEARS')"
+    [timeUnit]="'Anos'"
+    [absoluteTime]="timePassed.years.absolute!"
+    [relativeTime]="timePassed.years.relative!"
+    [isExpanded]="expandedCard === 'YEARS'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'YEARS'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'YEARS',
+        'expanded-style': expandedCard === 'YEARS',
+    }"
+    ></time-unit-card>
     
-    <app-months 
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px]  md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-months>
+    <time-unit-card
+    (click)="expand('MONTHS')"
+    [timeUnit]="'Meses'"
+    [absoluteTime]="timePassed.months.absolute!"
+    [relativeTime]="timePassed.months.relative!"
+    [isExpanded]="expandedCard === 'MONTHS'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'MONTHS'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'MONTHS',
+        'expanded-style': expandedCard === 'MONTHS',
+    }"
+    ></time-unit-card>
 
-    <app-days 
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px]  md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-days>
+    <time-unit-card
+    (click)="expand('DAYS')"
+    [timeUnit]="'Dias'"
+    [absoluteTime]="timePassed.days.absolute!"
+    [relativeTime]="timePassed.days.relative!"
+    [isExpanded]="expandedCard === 'DAYS'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'DAYS'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'DAYS',
+        'expanded-style': expandedCard === 'DAYS',
+    }"
+    ></time-unit-card>
 
-    <app-hours 
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px]  md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-hours>
+    <time-unit-card
+    (click)="expand('HOURS')"
+    [timeUnit]="'Horas'"
+    [absoluteTime]="timePassed.hours.absolute!"
+    [relativeTime]="timePassed.hours.relative!"
+    [isExpanded]="expandedCard === 'HOURS'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'HOURS'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'HOURS',
+        'expanded-style': expandedCard === 'HOURS',
+    }"
+    ></time-unit-card>
 
-    <app-minutes 
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px]  md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-minutes>
+    <time-unit-card
+    (click)="expand('MINUTES')"
+    [timeUnit]="'Minutos'"
+    [absoluteTime]="timePassed.minutes.absolute!"
+    [relativeTime]="timePassed.minutes.relative!"
+    [isExpanded]="expandedCard === 'MINUTES'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'MINUTES'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'MINUTES',
+        'expanded-style': expandedCard === 'MINUTES',
+    }"
+    ></time-unit-card>
 
-    <app-seconds
-    class="tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px]  md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2"
-    [timePassed$]="timePassed$"
-    ></app-seconds>
+    <time-unit-card
+    (click)="expand('SECONDS')"
+    [timeUnit]="'Segundos'"
+    [absoluteTime]="timePassed.seconds.absolute!"
+    [relativeTime]="timePassed.seconds.relative!"
+    [isExpanded]="expandedCard === 'SECONDS'"
+    [isCollapsed]="expandedCard !== null && expandedCard !== 'SECONDS'"
+    [ngClass]="{
+        'default-style': expandedCard === null,
+        'collapsed-style': expandedCard !== null && expandedCard !== 'SECONDS',
+        'expanded-style': expandedCard === 'SECONDS',
+    }"
+    ></time-unit-card>
 </div>

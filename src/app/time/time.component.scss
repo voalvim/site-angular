@@ -1,0 +1,10 @@
+.default-style {
+    @apply tw-w-[75%] tw-h-[100px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px] md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2
+}
+.expanded-style {
+    @apply tw-w-[75%] tw-h-[500px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px] md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2
+}
+
+.collapsed-style {
+    @apply tw-w-[75%] tw-h-[50px] 2xl:tw-mx-[80px] xl:tw-mx-[60px] lg:tw-mx-[40px] md:tw-mx-[20px] sm:tw-mx-0 max-sm:tw-my-2
+}

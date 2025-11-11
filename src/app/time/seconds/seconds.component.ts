@@ -12,6 +12,15 @@ import { MatCardModule } from "@angular/material/card";
 })
 export class SecondsComponent {
   @Input() timePassed$!: Observable<TimePassed>;
+  private _isExpanded = false;
+  
+  @Input() set isExpanded(value: boolean) {
+    console.log('YearsComponent isExpanded changed to: ', value);
+    this._isExpanded = value;
+  }  
+  get isExpanded():boolean {
+    return this._isExpanded;
+  }
 
   absoluteSeconds: number = 0;
   relativeSeconds: number = 0;
